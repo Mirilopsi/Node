@@ -8,35 +8,30 @@ var Anuncio = mongoose.model('Anuncio');
 var Usuario = mongoose.model('Usuario');
 
 const anuncio1 = {
-    "nombre": "Caja",
+    "nombre": "Boligrafo",
     "precio": 20,
     "venta": true,
-    "foto": "fotoBoligrafo.jpeg",
+    "foto": "boligrafo.jpg",
     "tags": ["escolar", "oficina"]
 };
 
 const anuncio2 = {
-    "nombre": "portafolios",
+    "nombre": "Libro",
     "precio": 24,
     "venta": true,
-    "foto": "fotoLibro.jpeg",
+    "foto": "libro.jpg",
+    "tags": ["ocio","cultura"]
+}
+const anuncio3 = {
+    "nombre": "Cafa",
+    "precio": 24,
+    "venta": true,
+    "foto": "caja.png",
     "tags": ["ocio","cultura"]
 }
 
 
-const usuario1 = {
-    'nombre' : 'Paco',
-    'email' : 'paco@email.com',
-    'clave' : '1111'
-};
-
-const usuario2 = {
-    'nombre' : 'Pepe',
-    'email' : 'pepe@email.com',
-    'clave' :   '2222'
-};
-
-const usuario3 = {
+const usuario = {
     'nombre' : 'Manolo',
     'email' :   'manolo@email.com',
     'clave' :   '3333'
@@ -95,12 +90,10 @@ inicializarBD()
         return anadirAnuncio(anuncio1)})
     .then(an =>{
         return anadirAnuncio(anuncio2)})
+   .then(an =>{
+        return anadirAnuncio(anuncio3)})
     .then(us =>{
-        return anadirUsuario(usuario1)})
-    .then(us =>{
-        return anadirUsuario(usuario2)})
-    .then(us =>{
-        return anadirUsuario(usuario3)})
+        return anadirUsuario(usuario)})
     .catch((err)=>{
         console.log(err);
     });

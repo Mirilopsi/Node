@@ -5,7 +5,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 //Obtenemos el Schema de anuncio
 const Anuncio = mongoose.model('Anuncio');
-
+const fs = require('fs');
 
 //Vamos a obtener la lista de anuncios que tenemos hasta ahora
 router.get('/', (req,res, next) =>{
@@ -33,6 +33,12 @@ router.get('/', (req,res, next) =>{
        res.json({success: true, result: anuncios});
 
    });
+});
+
+router.get('/images/:foto', (req,res,next)=>{
+    
+    const foto = req.params.foto;
+  res.render('images', { photo: foto});
 });
 
 module.exports = router;
