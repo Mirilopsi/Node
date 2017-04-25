@@ -14,25 +14,29 @@ router.get('/', (req,res, next) =>{
     const venta = req.query.venta;
     const foto = req.query.foto;
     const tags = req.query.tags;
-    console.log('Nombre:', nombre);
-   const criterios = {};
+    const limit = +req.query.limit;
+    const skip = +req.query.skip;
+    const select = req.query.select;
+    const sort = req.query.sort;
 
-   if(nombre) req.criterios = nombre; 
-   if(precio) req.criterios = precio; 
-   if(venta) req.criterios = venta; 
-   if(foto) req.criterios = foto; 
-   if(tags) req.criterios = tags; 
+    console.log(limit);
+    const criterios = {};
 
-   Anuncio.list(criterios, (err, anuncios)=>{
-       if(err){
-           console.log('Error');
-           next(err);
-           return;
-       }
-       console.log('ok!!');
-       res.json({success: true, result: anuncios});
+    if(nombre) req.criterios = nombre; 
+    if(precio) req.criterios = precio; 
+    if(venta) req.criterios = venta; 
+    if(foto) req.criterios = foto; 
+    if(tags) req.criterios = tags; 
 
-   });
+    Anuncio.list(criterios, limit, skip, select, sort,(err, anuncios)=>{
+        if(err){
+            console.log('Error');
+            next(err);
+            return;
+        }
+        res.json({success: true, result: anuncios});
+
+    });
 });
 
 router.get('/images/:foto', (req,res,next)=>{
@@ -40,5 +44,6 @@ router.get('/images/:foto', (req,res,next)=>{
     const foto = req.params.foto;
   res.render('images', { photo: foto});
 });
+
 
 module.exports = router;

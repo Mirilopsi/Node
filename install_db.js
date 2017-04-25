@@ -23,8 +23,8 @@ const anuncio2 = {
     "tags": ["ocio","cultura"]
 }
 const anuncio3 = {
-    "nombre": "Cafa",
-    "precio": 24,
+    "nombre": "Caja",
+    "precio": 240,
     "venta": true,
     "foto": "caja.png",
     "tags": ["ocio","cultura"]

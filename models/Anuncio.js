@@ -12,9 +12,14 @@ const anuncioSchema = mongoose.Schema({
 });
 
 //Creamos metodo para obtener la lista de anuncios que hay hasta el momento
-anuncioSchema.statics.list = function(criterios,callback){
+anuncioSchema.statics.list = function(criterios,limit, skip, select,sort,callback){
     const query = Anuncio.find(criterios);
     
+    query.limit(limit);
+    query.skip(skip);
+    query.select(select);
+    query.sort(sort);
+
     query.exec(callback);
 
 };
