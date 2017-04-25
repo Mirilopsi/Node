@@ -9,7 +9,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 require('./lib/conectar_mongoose.js');
-require('./models/anuncio');
+require('./models/Anuncio');
+require('./models/Usuario');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/api/anuncios', require('./routes/api/anuncios'));
+app.use('/api/usuarios', require('./routes/api/usuarios'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
