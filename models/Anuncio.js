@@ -19,5 +19,6 @@ anuncioSchema.statics.list = function(criterios,callback){
 
 };
 
+
 //Creamos el modelo de anuncio
 var Anuncio = mongoose.model('Anuncio', anuncioSchema);
