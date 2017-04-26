@@ -5,7 +5,9 @@ const router = express.Router();
 const mongoose = require('mongoose');
 //Obtenemos el Schema de anuncio
 const Anuncio = mongoose.model('Anuncio');
-const fs = require('fs');
+const jwtAuth = require('../../lib/jwt_auth');
+
+//router.use(jwtAuth);
 
 //Vamos a obtener la lista de anuncios que tenemos hasta ahora
 router.get('/', (req,res, next) =>{
@@ -21,7 +23,6 @@ router.get('/', (req,res, next) =>{
 
     console.log(limit);
     const criterios = {};
-
     if(nombre) req.criterios = nombre; 
     if(precio) req.criterios = precio; 
     if(venta) req.criterios = venta; 
@@ -30,9 +31,7 @@ router.get('/', (req,res, next) =>{
 
     Anuncio.list(criterios, limit, skip, select, sort,(err, anuncios)=>{
         if(err){
-            console.log('Error');
-            next(err);
-            return;
+            return next(err);
         }
         res.json({success: true, result: anuncios});
 
@@ -40,10 +39,19 @@ router.get('/', (req,res, next) =>{
 });
 
 router.get('/images/:foto', (req,res,next)=>{
-    
-    const foto = req.params.foto;
-  res.render('images', { photo: foto});
+    const _foto = req.params.foto;
+
+    Anuncio.findOne({foto: _foto}).exec((err, photo)=>{
+        if(photo === null){
+            return next(new Error('No se ha encontrado la imagen '+_foto));
+        }
+        console.log(photo);
+
+         res.render('images', { photo: _foto});
+    });
+   
 });
+
 
 
 module.exports = router;

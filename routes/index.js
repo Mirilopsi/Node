@@ -6,5 +6,12 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'nodepop' });
 });
 
+router.get('/login', function(req, res,next){
+  res.render('login');
+});
+
+router.get('/registro', function(req, res,next){
+  res.render('registro');
+});
 
 module.exports = router;

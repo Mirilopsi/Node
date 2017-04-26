@@ -5,7 +5,10 @@ const mongoose = require('mongoose');
 //Creamos la estructura que tendrá el modelo de usuario
 const usuarioSchema = mongoose.Schema({
     nombre: String,
-    email: String,
+    email: {
+        type: String,
+        index: true,
+        unique: true},
     clave: String
 });
 

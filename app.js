@@ -12,6 +12,7 @@ require('./lib/conectar_mongoose.js');
 require('./models/Anuncio');
 require('./models/Usuario');
 
+
 var app = express();
 
 // view engine setup

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Login</h1>
+    <form action="/api/usuarios/registro" method="POST">
+        <label for="nombre">Nombre: </label>
+        <input type="text" name="nombre" required></input>
+        <label for="email">Email: </label>
+        <input type="text" name="email" required></input>
+        <label for="clave">Clave: </label>
+        <input type="password" name="clave" required></input>
+
+        <input type="submit"></input>
+    </form>
+    </body>
+</html>
