@@ -1,10 +1,4 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>README</title>
-<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css">
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
 
-<div class="container">
 
 # Nodepop
 
@@ -295,4 +289,3 @@ Se va a encrgar de cifrar y descifrar, de manera que a partir de un algoritmo de
 
 —– En curso —–
 
-</div>
