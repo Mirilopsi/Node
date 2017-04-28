@@ -7,7 +7,10 @@
 var app = require('../app');
 var debug = require('debug')('nodepop:server');
 var http = require('http');
+<<<<<<< HEAD
 const cluster = require('cluster');
+=======
+>>>>>>> a600e9d3ca11d6713991965dfd711bdceb6ecb89
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +23,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
+<<<<<<< HEAD
 if(cluster.isMaster){
     //Mirar cuantas cpus tenemos 
     const numCPUs = require('os').cpus().length;
@@ -44,6 +48,17 @@ if(cluster.isMaster){
   server.on('error', onError);
   server.on('listening', onListening);
 } 
+=======
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+>>>>>>> a600e9d3ca11d6713991965dfd711bdceb6ecb89
 
 /**
  * Normalize a port into a number, string, or false.

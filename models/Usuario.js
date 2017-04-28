@@ -21,5 +21,9 @@ usuarioSchema.statics.list = function(criterios,callback){
 
 
 //Creamos el modelo de usuario
+<<<<<<< HEAD
 var Usuario = mongoose.model('Usuario', usuarioSchema);
 
+=======
+var Usuario = mongoose.model('Usuario', usuarioSchema);
+>>>>>>> a600e9d3ca11d6713991965dfd711bdceb6ecb89

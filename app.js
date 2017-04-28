@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+<<<<<<< HEAD
 require('localize');
 const traduccion = require('./lib/customError');
 
@@ -12,6 +13,11 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 
+=======
+var index = require('./routes/index');
+var users = require('./routes/users');
+
+>>>>>>> a600e9d3ca11d6713991965dfd711bdceb6ecb89
 require('./lib/conectar_mongoose.js');
 require('./models/Anuncio');
 require('./models/Usuario');
@@ -31,6 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+<<<<<<< HEAD
 
 app.use('/lan/:lan/*', (req, res, next)=>{
     const lan = req.body.lan;
@@ -42,6 +49,8 @@ app.use('/lan/:lan/*', (req, res, next)=>{
    next();
 });
 
+=======
+>>>>>>> a600e9d3ca11d6713991965dfd711bdceb6ecb89
 app.use('/', index);
 app.use('/api/anuncios', require('./routes/api/anuncios'));
 app.use('/api/usuarios', require('./routes/api/usuarios'));

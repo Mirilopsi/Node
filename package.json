@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+<<<<<<< HEAD
     "installDB": "node install_db.js"
+=======
+    "run installDB": "mongo ./lib/install_db"
+>>>>>>> a600e9d3ca11d6713991965dfd711bdceb6ecb89
   },
   "dependencies": {
     "assert": "^1.4.1",
@@ -14,11 +18,18 @@
     "debug": "~2.6.3",
     "express": "^4.15.2",
     "fs": "0.0.1-security",
+<<<<<<< HEAD
     "jsonwebtoken": "^7.4.0",
     "localize": "^0.4.7",
     "mongoose": "^4.9.6",
     "morgan": "~1.8.1",
     "promises": "^0.2.5",
+=======
+    "jade": "~1.11.0",
+    "jsonwebtoken": "^7.4.0",
+    "mongoose": "^4.9.6",
+    "morgan": "~1.8.1",
+>>>>>>> a600e9d3ca11d6713991965dfd711bdceb6ecb89
     "serve-favicon": "~2.4.2"
   }
 }

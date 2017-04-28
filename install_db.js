@@ -8,6 +8,7 @@ var Anuncio = mongoose.model('Anuncio');
 var Usuario = mongoose.model('Usuario');
 
 const anuncio1 = {
+<<<<<<< HEAD
     "nombre": "Bicicleta",
     "venta": true,
     "precio": 230.15,
@@ -39,6 +40,38 @@ function desconectarBD(){
             console.log('Cerrada la conexión con éxito');
         });
 }
+=======
+    "nombre": "Boligrafo",
+    "precio": 20,
+    "venta": true,
+    "foto": "boligrafo.jpg",
+    "tags": ["escolar", "oficina"]
+};
+
+const anuncio2 = {
+    "nombre": "Libro",
+    "precio": 24,
+    "venta": true,
+    "foto": "libro.jpg",
+    "tags": ["ocio","cultura"]
+}
+const anuncio3 = {
+    "nombre": "Caja",
+    "precio": 240,
+    "venta": true,
+    "foto": "caja.png",
+    "tags": ["ocio","cultura"]
+}
+
+
+const usuario = {
+    'nombre' : 'Manolo',
+    'email' :   'manolo@email.com',
+    'clave' :   '3333'
+
+};
+
+>>>>>>> a600e9d3ca11d6713991965dfd711bdceb6ecb89
 
 function inicializarBD(){
     return new Promise ((resolve,reject)=>{
@@ -91,6 +124,7 @@ inicializarBD()
         return anadirAnuncio(anuncio1)})
     .then(an =>{
         return anadirAnuncio(anuncio2)})
+<<<<<<< HEAD
     .then(us =>{
         return anadirUsuario(usuario)})
     .then(()=>{
@@ -98,6 +132,13 @@ inicializarBD()
     })
     .catch((err)=>{
         desconectarBD();
+=======
+   .then(an =>{
+        return anadirAnuncio(anuncio3)})
+    .then(us =>{
+        return anadirUsuario(usuario)})
+    .catch((err)=>{
+>>>>>>> a600e9d3ca11d6713991965dfd711bdceb6ecb89
         console.log(err);
     });
     
