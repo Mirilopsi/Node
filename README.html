@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>README</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body><div class="container"><h1 id="nodepop">Nodepop</h1>
+
+<p><em>Esta es una aplicación con la que ponemos en práctica lo aprendido de NodeJS y MongoDB. Para empezar tenemos que preparar el entorno:</em></p>
+
+<hr>
+
+
+
+<h2 id="índice">Índice</h2>
+
+<p><div class="toc">
+<ul>
+<li><a href="#nodepop">Nodepop</a><ul>
+<li><a href="#índice">Índice</a></li>
+<li><a href="#preparando-el-entorno"> Preparando el entorno</a><ul>
+<li><a href="#preparar-mongodb">Preparar MongoDB</a></li>
+<li><a href="#inicializamos-la-base-de-datos">Inicializamos la base de datos</a></li>
+<li><a href="#iniciando-nodepop">Iniciando nodepop</a></li>
+</ul>
+</li>
+<li><a href="#api-nodepop">  API  Nodepop</a><ul>
+<li><a href="#modelos">Modelos</a><ul>
+<li><a href="#modelo-anuncio">Modelo anuncio:</a></li>
+<li><a href="#modelo-usuario">Modelo Usuario</a></li>
+</ul>
+</li>
+<li><a href="#rutas-anuncios">Rutas anuncios</a><ul>
+<li><a href="#rutas-anuncios-1">Rutas anuncios:</a></li>
+<li><a href="#filtros-y-condiciones-para-anuncios">Filtros y condiciones para anuncios:</a></li>
+</ul>
+</li>
+<li><a href="#autenticacion">Autenticacion</a><ul>
+<li><a href="#jsonwebtoken">JsonWebToken</a><ul>
+<li><a href="#jwtconfigjs"> jwt_config.js</a></li>
+<li><a href="#jwtauthjs"> jwt_auth.js</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#registro">Registro</a><ul>
+<li><a href="#cipher">Cipher</a><ul>
+<li><a href="#cipherconfigjs">cipher_config.js</a></li>
+<li><a href="#cipherjs"> cipher.js</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#internacionalización">Internacionalización</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+<hr>
+
+<hr>
+
+<h2 id="preparando-el-entorno"><strong><i class="icon-cog"></i> Preparando el entorno</strong></h2>
+
+<hr>
+
+
+
+<h3 id="preparar-mongodb">Preparar MongoDB</h3>
+
+<ul>
+<li><p>Creamos un archivo <em>startMongo.bat</em> en el directorio <strong><em>C:\Program Files\MongoDB\Server\3.4</em></strong>   y escribimos:</p>
+
+<blockquote>
+  <p>C:\”Program Files”\MongoDB\Server\3.4\bin\mongod –dbpath ./data/db –directoryperdb</p>
+</blockquote></li>
+<li><p>Abrimos la consola de comandos y nos posicionamos en el directorio donde hemos creado el <em>.bat</em> y lo iniciamos con el comando <code>startMongo</code></p></li>
+</ul>
+
+<p>Ahora que ya tenemos MongoDB ejecutándose continuamos con la consola NodeJS.</p>
+
+<hr>
+
+
+
+<h3 id="inicializamos-la-base-de-datos">Inicializamos la base de datos</h3>
+
+<p>Hemos creado un script de manera que sea más sencillo inicializar la base de datos. Lo iniciamos con el comando:</p>
+
+<blockquote>
+  <p>npm run installDB</p>
+</blockquote>
+
+<p>Este script se encuentra en la carpeta del proyecto nodepop con el nombre <code>install_bd.js</code></p>
+
+<p>El script está hecho con promesas, de manera que vamos añadiendo uno a uno los anuncios y usuarios y una vez finalicen todos cerramos la conexión.</p>
+
+<hr>
+
+<pre><code>inicializarBD()
+    .then(an =&gt; {
+        return anadirAnuncio(anuncio1)})
+    .then(us =&gt;{
+        return anadirUsuario(usuario)})
+    .then(()=&gt;{
+        mongoose.disconnect(err =&gt;{
+           *--Controlamos errores--*
+        });
+    })
+</code></pre>
+
+<hr>
+
+
+
+<h3 id="iniciando-nodepop">Iniciando nodepop</h3>
+
+<p>Si no lo tenemos instalado, instalamos <strong><em>nodemon</em></strong></p>
+
+<pre><code>npm i nodemon --global
+</code></pre>
+
+<p>Y lo iniciamos poniendo en la consola de <em>node </em> <code>nodemon</code>. Si todo ha salido correctamente deberá mostrar en la consola:</p>
+
+<blockquote>
+  <p>[nodemon] 1.11.0 <br>
+  [nodemon] to restart at any time, enter <code>rs</code> <br>
+  [nodemon] watching: <em>.</em> <br>
+  [nodemon] starting <code>node ./bin/www</code> <br>
+  Listening on port 3000 <br>
+  Conectado a mongodb</p>
+</blockquote>
+
+<hr>
+
+<hr>
+
+
+
+<h2 id="api-nodepop"><strong><i class="icon-cloud"></i>  API  Nodepop</strong></h2>
+
+<hr>
+
+
+
+<h3 id="modelos">Modelos</h3>
+
+<p><em>Para los modelos hemos añadido el módulo <code>mongoose</code> para crear los esquemas de cada uno. Hemos creado para nuestra aplicación dos modelos:</em></p>
+
+<hr>
+
+<ul>
+<li><h4 id="modelo-anuncio"><strong>Modelo anuncio:</strong></h4>
+
+<p>La estructura que van a tener los anuncios será:</p>
+
+<pre><code>Const anuncioSchema = mongoose.Schema({
+nombre: {
+    type: String,
+    index: true },
+precio: Number,
+venta: Boolean,
+foto: {
+    type: String,
+    index: true },
+tags: [String]
+});
+</code></pre>
+
+<p><em>Utilizamos index para agilizar las búsquedas.</em></p></li>
+</ul>
+
+<hr>
+
+<ul>
+<li><h4 id="modelo-usuario"><strong>Modelo Usuario</strong></h4>
+
+<p>El esquema de usuario tiene la siguiente estructura:</p>
+
+<pre><code>const usuarioSchema = mongoose.Schema({
+   nombre: String,
+    email: {
+        type: String,
+        index: true,
+        unique: true},
+    clave: String
+});
+</code></pre>
+
+<p>Como el usuario se va a identificar con el email, éste será único e identificativo para cada usuario registrado.</p></li>
+</ul>
+
+<hr>
+
+
+
+<h3 id="rutas-anuncios">Rutas anuncios</h3>
+
+
+
+<h4 id="rutas-anuncios-1">Rutas anuncios:</h4>
+
+<p>Si la ruta es <code>localhost:3000/api/anuncios</code> mostrará la lista completa de anuncios  en formato json. </p>
+
+<blockquote>
+  <p><strong>Nota: </strong>  será necesario estar <a href="#Autenticacion">logeado</a> para esto.</p>
+</blockquote>
+
+<hr>
+
+
+
+<h4 id="filtros-y-condiciones-para-anuncios">Filtros y condiciones para anuncios:</h4>
+
+<p>Los anuncios pueden ser filtrados de varias maneras:</p>
+
+<p><strong>Por defecto:</strong></p>
+
+<ol>
+<li><p><strong>Sort</strong>: Se ordenan los anuncios por un atributo (nombre, precio…)</p>
+
+<blockquote>
+  <p>localhost:3000/api/anuncios?sort=nombre      //ordenación por nombre</p>
+</blockquote></li>
+<li><p><strong>Select</strong>: Se muestran los atributos que se indican (p.e: nombre)</p>
+
+<blockquote>
+  <p>localhost:3000/api/anuncios?select=precio    //Solo muestra los precios </p>
+</blockquote></li>
+<li><p><strong>Limit</strong>: Se muestran un número n de anuncios.</p>
+
+<blockquote>
+  <p>localhost:3000/api/anuncios?limit=2  //muestra 2 elementos</p>
+</blockquote></li>
+<li><p><strong>Skip</strong>:  Se salta n elementos.</p>
+
+<blockquote>
+  <p>localhost:3000/api/anuncios?skip=1 //se salta un elemento de cada dos </p>
+</blockquote></li>
+</ol>
+
+<hr>
+
+<p><strong>Filtrado más complejo:</strong></p>
+
+<p>Se puede filtrar:</p>
+
+<ul>
+<li><p><strong>Búsqueda avanzada por nombre:</strong> Busca nombre de artículos que comiencen por la cadena introducida.</p>
+
+<blockquote>
+  <p>//obtenemos <em>caja</em>, <em>cartulina</em>…  </p>
+  
+  <p>localhost:3000/api/anuncios?nombre=ca  </p>
+</blockquote></li>
+<li><p><strong>Búsqueda por tags:</strong></p>
+
+<blockquote>
+  <p>//obtenemos aquellos que tengan ese tag ‘office’</p>
+  
+  <p>localhost:3000/api/anuncios?tag=office     </p>
+</blockquote></li>
+<li><p><strong>Búsqueda de anuncios a la venta:</strong></p>
+
+<blockquote>
+  <p>//Anuncios a la venta</p>
+  
+  <p>localhost:3000/api/anuncios?venta=true</p>
+</blockquote></li>
+<li><p><strong>Búsqueda por rango de precios:</strong></p>
+
+<blockquote>
+  <p>//Precios entre 10 y 50 € <br>
+  localhost:3000/api/anuncios?precio=10-50    </p>
+  
+  <p>//Mayores que 10 <br>
+   localhost:3000/api/anuncios?precio=10-  </p>
+  
+  <p>//Menores que 120 <br>
+    localhost:3000/api/anuncios?precio=-120</p>
+  
+  <p>//con precio = 30 <br>
+     localhost:3000/api/anuncios?precio=30     </p>
+</blockquote></li>
+</ul>
+
+<hr>
+
+
+
+<h3 id="autenticacion">Autenticacion</h3>
+
+
+
+<h4 id="jsonwebtoken">JsonWebToken</h4>
+
+<p>Utilizamos jwt para poder identificar al usuario y restringir cierta información de nuestra aplicación (en este caso los anuncios).</p>
+
+<blockquote>
+  <p>const jwt = require(‘jsonwebtoken’);</p>
+</blockquote>
+
+<hr>
+
+<p><i class="icon-file"> <strong>Creación de los ficheros para jwt</strong></i></p>
+
+
+
+<h5 id="jwtconfigjs"><i class="icon-cog"><i> jwt_config.js</i></i></h5>
+
+<p>Creamos un módulo nuevo llamado <em>‘jwt_config’</em> que utilizaremos para guardar la clave secreta (necesaria para <strong>crear el token de autenticación</strong>), y cuando expira (en este caso 2 días):</p>
+
+<pre><code>    jwtSecret: 'fqrkefrkferqfqerf', 
+    jwtConfig: {
+        expiresIn: '2d'
+    }
+</code></pre>
+
+<hr>
+
+
+
+<h5 id="jwtauthjs"><i class="icon-user"> jwt_auth.js</i></h5>
+
+<p>A continuación creamos el módulo <em>‘jwt_auth’</em> que se encargará de obtener y <strong>comprobar el token</strong> mediante un middleware.</p>
+
+<pre><code>const token = req.body.token || req.query.token || req.get('x-access-token');
+
+if(!token){
+    *-- No se ha encontrado token --*
+}
+
+jwt.verify(token, config.jwtSecret,(err, tokenDecod)=&gt;{
+    if(err){
+        *--Token no valido--*
+    }
+    *-- token válido --*
+});
+</code></pre>
+
+<p>Una vez comprobado navegaremos identificado.</p>
+
+<blockquote>
+  <p><strong>nota: </strong> Por el momento no no hemos implementado el login funcional, por lo  <br>
+  que habrá que pasarle el token con GET.</p>
+</blockquote>
+
+<hr>
+
+
+
+<h3 id="registro">Registro</h3>
+
+<p>Para registrar un usuario hace falta mandar con POST el nombre del usuario, email (que debe ser único en la bd) y una contraseña.</p>
+
+<hr>
+
+
+
+<h4 id="cipher">Cipher</h4>
+
+<p>Utilizaremos de nuevo dos archivos (uno de configuración y otro de declaración).</p>
+
+
+
+<h5 id="cipherconfigjs"><i class="icon-cog"><i>cipher_config.js</i></i></h5>
+
+<pre><code>    {
+    algoritmo:'aes192',
+    pass: 'miContraseñaUltraSegura'
+    }
+</code></pre>
+
+
+
+<h5 id="cipherjs"><i class="icon-file"><i> cipher.js</i></i></h5>
+
+<p>Se va a encrgar de cifrar y descifrar, de manera que a partir de un algoritmo definido en el archivo de config y una clave lo encripta.</p>
+
+<pre><code>cifrar: function cifrarClave(clave){
+    const cifrar = crypto.createCipher(algoritmo, pass);
+    let encriptado = cifrar.update(clave,'utf8','hex');
+
+    return encriptado += cifrar.final('hex');       
+}
+</code></pre>
+
+
+
+<h3 id="internacionalización">Internacionalización</h3>
+
+<p>—– En curso —–</p></div></body>
+</html>
